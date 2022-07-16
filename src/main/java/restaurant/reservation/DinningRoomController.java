@@ -34,4 +34,16 @@ public class DinningRoomController {
         }
         throw new TableException("The table has been already reserved.");
     }
+    @PostMapping("/return")
+    public ReturnTable getReturnTable(@RequestBody BookedTable returnedTable) {
+        for (BookedTable bookedTable : bookedTables) {
+            if (bookedTable.getToken().equals(returnedTable.getToken())) {
+                ReturnTable returnTable = new ReturnTable(bookedTable.getTable());
+                bookedTable.getTable().setBooked(false);
+                bookedTables.remove(bookedTable);
+                return returnTable;
+            }
+        }
+        throw new TableException("Wrong token!");
+    }
 }
