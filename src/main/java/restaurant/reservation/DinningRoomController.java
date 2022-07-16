@@ -26,6 +26,7 @@ public class DinningRoomController {
         }
         for (Table table : dinningRoom.getAvailableTables()) {
             if (table.getTableNumber() == tableNumber && !table.isBooked()) {
+                dinningRoom.getAvailableTables().remove(table);
                 table.setBooked(true);
                 BookedTable bookedTable = new BookedTable(table);
                 bookedTables.add(bookedTable);
@@ -39,6 +40,7 @@ public class DinningRoomController {
         for (BookedTable bookedTable : bookedTables) {
             if (bookedTable.getToken().equals(returnedTable.getToken())) {
                 ReturnTable returnTable = new ReturnTable(bookedTable.getTable());
+                dinningRoom.getAvailableTables().add(bookedTable.getTable());
                 bookedTable.getTable().setBooked(false);
                 bookedTables.remove(bookedTable);
                 return returnTable;
