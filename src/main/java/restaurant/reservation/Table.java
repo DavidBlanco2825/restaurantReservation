@@ -9,6 +9,10 @@ public class Table {
 
     public Table() {}
 
+    public Table(int tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+
     public Table(int tableNumber, int numberOfSeats) {
         this.tableNumber = tableNumber;
         this.numberOfSeats = numberOfSeats;
