@@ -4,15 +4,7 @@ This is a demo project in which a simple Spring REST service is implemented to m
 
 >The REST service shows the available tables, reservation of tables, the cancellation of reservations and the statics of the restaurant.
 
-## Table of contents
-
-- [Available seats](#available-seats-a-nameavailablea)
-- [Reservation](#reservation-a-namereservationa)
-- [Cancellation of reservation](#cancellation-of-reservation-a-namecancelationa)
-- [Restaurant Statistics](#restaurant-statistics-a-namemetricsa)
-
-
-### Available seats <a name="available"></a>
+### Available seats
 
 The /tables endpoint handles GET request and return information about the restaurant.
 The response information contains total tables and the available tables, 
@@ -41,7 +33,7 @@ If the number is odd, the number of seats is set to 6,
 if the number is even the number of seats is set to 4.
 
 
-### Reservation <a name="reservation"></a>
+### Reservation
 
 The /purchase endpoint handles POST request and marks a table as reserved. 
 The request should contain tableNumber variable that correspond to the number of the table.
@@ -80,7 +72,7 @@ If the user pass a wrong table number, the response body is follows, with a resp
         "error": "The table number is out of bounds!."
     }
 
-### Cancellation of reservation <a name="cancelation"></a>
+### Cancellation of reservation 
 
 The /return endpoint handles POST request, undo a previous table reservation. 
 The request body should have the token that identifies the table reservation, 
@@ -108,6 +100,6 @@ response body with an expired token
     }
 
 
-### Restaurant statistics <a name="metrics"></a>
+### Restaurant statistics
 
 At the moment this is section is under development.
