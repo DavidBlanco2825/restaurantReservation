@@ -1,9 +1,6 @@
 package restaurant.reservation;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +9,7 @@ import java.util.List;
 public class DinningRoomController {
     DinningRoom dinningRoom = new DinningRoom(6);
     List<BookedTable> bookedTables = new ArrayList<>();
+    Stats dinningRoomStats = new Stats(dinningRoom.getTotalTables());
 
     @GetMapping("/tables")
     public DinningRoom getAvailableTables() {
@@ -28,6 +26,7 @@ public class DinningRoomController {
             if (table.getTableNumber() == tableNumber && !table.isBooked()) {
                 dinningRoom.getAvailableTables().remove(table);
                 table.setBooked(true);
+                dinningRoomStats.reservedTable();
                 BookedTable bookedTable = new BookedTable(table);
                 bookedTables.add(bookedTable);
                 return bookedTable;
@@ -40,12 +39,24 @@ public class DinningRoomController {
         for (BookedTable bookedTable : bookedTables) {
             if (bookedTable.getToken().equals(returnedTable.getToken())) {
                 ReturnTable returnTable = new ReturnTable(bookedTable.getTable());
-                dinningRoom.getAvailableTables().add(bookedTable.getTable());
                 bookedTable.getTable().setBooked(false);
+                dinningRoomStats.returnedTable();
+                dinningRoom.getAvailableTables().add(bookedTable.getTable());
                 bookedTables.remove(bookedTable);
                 return returnTable;
             }
         }
         throw new TableException("Wrong token!");
+    }
+
+    @PostMapping("/stats")
+    public Stats getStats(@RequestParam(name = "password", required = false) String password) {
+        if (password == null || password.isEmpty()) {
+            throw new TableException("The password is wrong");
+        } else if (password.equals("secret_password")) {
+            return dinningRoomStats;
+        } else {
+            throw new TableException("The password is wrong");
+        }
     }
 }

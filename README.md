@@ -102,4 +102,16 @@ response body with an expired token
 
 ### Restaurant statistics
 
-At the moment this is section is under development.
+The /stats endpoint handles POST request with URL parameters.
+
+If the URL parameters contains a "password" key with a "secret_password" value, return the restaurant statistics in the following format:
+
+    {
+        "numberOfAvailableTables": 6
+    }
+
+If the parameters don't contain a password key or a wrong value has been passed, the respond body contains the following with a 401 status code.
+    
+    {
+        "error": "The password is wrong!"
+    }
